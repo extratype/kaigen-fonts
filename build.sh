@@ -12,9 +12,9 @@ then
     exit 1
 fi
 
-if basename "$1" .otf | grep -q 'SourceHan\(Sans\|Serif\|Mono\)\(HW\)\?-'
+if basename "$1" .otf | grep -q 'SourceHan\(Sans\|Serif\|Mono\)Plus\(HW\)\?-'
 then
-    ttf_filename="$(basename "$1" .otf | sed -e 's/SourceHan\(Sans\|Serif\|Mono\)\(HW\)\?/\0J/g' -e 's/SourceHan/Kaigen/g').ttf"
+    ttf_filename="$(basename "$1" .otf | sed -e 's/SourceHan\(Sans\|Serif\|Mono\)Plus\(HW\)\?/\0J/g' -e 's/SourceHan/Kaigen/g').ttf"
 else
     ttf_filename="$(basename "$1" .otf | sed -e 's/SourceHan/Kaigen/g').ttf"
 fi
@@ -25,14 +25,14 @@ echo "Output: $ttf_filename" >&2
 time otfccdump -o "$ttf_filename"-temp1.json "$1"
 echo "Stage 1/5 clear" >&2
 
-if basename "$1" .otf | grep -q 'SourceHan\(Sans\|Serif\|Mono\)\(HW\)\?-'
+if basename "$1" .otf | grep -q 'SourceHan\(Sans\|Serif\|Mono\)Plus\(HW\)\?-'
 then
     time sed \
-        -e 's/"nameString": \?"[^"]*SourceHan\(Sans\|Serif\|Mono\)\(HW\)\?/\0J/g' \
-        -e 's/"nameString": \?"Source Han \(Sans\|Serif\|Mono\)\( HW\)\?/\0 J/g' \
-        -e 's/"fontName": \?"SourceHan\(Sans\|Serif\|Mono\)\(HW\)\?/\0J/g' \
-        -e 's/"fullName": \?"Source Han \(Sans\|Serif\|Mono\)\( HW\)\?/\0 Japanese/g' \
-        -e 's/"familyName": \?"Source Han \(Sans\|Serif\|Mono\)\( HW\)\?/\0 Japanese/g' \
+        -e 's/"nameString": \?"[^"]*SourceHan\(Sans\|Serif\|Mono\)Plus\(HW\)\?/\0J/g' \
+        -e 's/"nameString": \?"Source Han \(Sans\|Serif\|Mono\)\\+\( HW\)\?/\0 J/g' \
+        -e 's/"fontName": \?"SourceHan\(Sans\|Serif\|Mono\)Plus\(HW\)\?/\0J/g' \
+        -e 's/"fullName": \?"Source Han \(Sans\|Serif\|Mono\)\\+\( HW\)\?/\0 Japanese/g' \
+        -e 's/"familyName": \?"Source Han \(Sans\|Serif\|Mono\)\\+\( HW\)\?/\0 Japanese/g' \
         "$ttf_filename"-temp1.json > "$ttf_filename"-temp2.json
     echo "Stage 2/5 clear" >&2
 else
